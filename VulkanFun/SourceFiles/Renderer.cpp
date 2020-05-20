@@ -1,16 +1,46 @@
 #include "Renderer.h"
-#include <glm/glm.hpp>
 #include "TextMaker.h"
-#include <stb_image.h>
 #include "Core.h"
+
+#include <glm/glm.hpp>
+#include <stb_image.h>
 
 void Renderer::Start()
 {
-    // vulkanHandler->RagisterRenderer(shared_from_this());
+    transform = gameObject.lock()->GetComponent<Transform>();
 }
 
 void Renderer::Update()
 {
+    UniformBufferObject ubo = {};
+    ubo.model = glm::mat4(1.0f);
+
+    glm::vec3 pos = transform.lock()->GetPosition();
+    glm::vec3 rotation = transform.lock()->GetRotation();
+    ubo.view = glm::lookAt(
+        glm::vec3(pos.x, pos.y, 3.0f), glm::vec3(pos.x, pos.y, 0.0f),
+                           glm::vec3(0.0f, -1.0f, 1.0f));
+    ubo.proj = glm::perspective(
+        glm::radians(80.0f),
+        vulkanHandler->GetSwapChainExtent().width /
+            (float)vulkanHandler->GetSwapChainExtent().height,
+        0.1f,
+        10.0f);
+    ubo.proj[1][1] *= -1;
+
+    //ToDo: fix it
+    void *data;
+    vkMapMemory(device, uniformBuffersMemory[0], 0, sizeof(ubo), 0, &data);
+    memcpy(data, &ubo, sizeof(ubo));
+    vkUnmapMemory(device, uniformBuffersMemory[0]);
+
+    vkMapMemory(device, uniformBuffersMemory[1], 0, sizeof(ubo), 0, &data);
+    memcpy(data, &ubo, sizeof(ubo));
+    vkUnmapMemory(device, uniformBuffersMemory[1]);
+
+    vkMapMemory(device, uniformBuffersMemory[2], 0, sizeof(ubo), 0, &data);
+    memcpy(data, &ubo, sizeof(ubo));
+    vkUnmapMemory(device, uniformBuffersMemory[2]);
 
 }
 
@@ -176,31 +206,6 @@ void Renderer::CreateUniformBuffer()
         vulkanHandler->createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
     }
 
-    UniformBufferObject ubo = {};
-    ubo.model = glm::mat4(1.0f);
-    ubo.view = glm::lookAt(glm::vec3(shift, 0, 3.0f), glm::vec3(shift, 0.0f, 0.0f),
-                           glm::vec3(0.0f, -1.0f, 1.0f));
-    ubo.proj = glm::perspective(
-        glm::radians(80.0f),
-        vulkanHandler->GetSwapChainExtent().width /
-            (float)vulkanHandler->GetSwapChainExtent().height,
-        0.1f,
-        10.0f);
-    ubo.proj[1][1] *= -1;
-
-    //ToDo: fix it
-    void *data;
-    vkMapMemory(device, uniformBuffersMemory[0], 0, sizeof(ubo), 0, &data);
-    memcpy(data, &ubo, sizeof(ubo));
-    vkUnmapMemory(device, uniformBuffersMemory[0]);
-
-    vkMapMemory(device, uniformBuffersMemory[1], 0, sizeof(ubo), 0, &data);
-    memcpy(data, &ubo, sizeof(ubo));
-    vkUnmapMemory(device, uniformBuffersMemory[1]);
-
-    vkMapMemory(device, uniformBuffersMemory[2], 0, sizeof(ubo), 0, &data);
-    memcpy(data, &ubo, sizeof(ubo));
-    vkUnmapMemory(device, uniformBuffersMemory[2]);
 }
 
 void Renderer::CreateTextureImageView()

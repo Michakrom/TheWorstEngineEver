@@ -160,6 +160,7 @@
     <ClCompile Include="SourceFiles\GameObject.cpp" />
     <ClCompile Include="SourceFiles\ModelLoader.cpp" />
     <ClCompile Include="SourceFiles\Scene.cpp" />
+    <ClCompile Include="SourceFiles\TestComponent.cpp" />
     <ClCompile Include="SourceFiles\TextMaker.cpp" />
     <ClCompile Include="SourceFiles\Main.cpp" />
     <ClCompile Include="SourceFiles\Renderer.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="SourceFiles\GameObject.h" />
     <ClInclude Include="SourceFiles\ModelLoader.h" />
     <ClInclude Include="SourceFiles\Scene.h" />
+    <ClInclude Include="SourceFiles\TestComponent.h" />
     <ClInclude Include="SourceFiles\TextMaker.h" />
     <ClInclude Include="SourceFiles\hash.h" />
     <ClInclude Include="SourceFiles\QueueFamilyIndices.h" />

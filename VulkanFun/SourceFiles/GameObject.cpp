@@ -1,30 +1,32 @@
 #include "GameObject.h"
 #include "Core.h"
+#include "Transform.h"
+
 #include <typeinfo>
 
 const std::string GameObject::DEFAULT_NAME = "GameObject";
 
 std::weak_ptr<GameObject> GameObject::Create()
 {
-    auto gameObject = std::shared_ptr<GameObject>(new GameObject());
-    gameObject->name = DEFAULT_NAME;
-    Core::GetCurrentScene()->RagisterGameObject(gameObject);
-    return gameObject;
+    return Create(DEFAULT_NAME);
 }
 std::weak_ptr<GameObject> GameObject::Create(std::string name)
 {
     auto gameObject = std::shared_ptr<GameObject>(new GameObject());
     gameObject->name = name;
     Core::GetCurrentScene()->RagisterGameObject(gameObject);
-    std::weak_ptr test = gameObject;
-    std::shared_ptr dupa = test.lock();
+
+    gameObject->AddComponent<Transform>();
+
     return gameObject;
 }
 
-GameObject::GameObject() {}
-
 void GameObject::Destroy()
 {
+    for (std::shared_ptr<Component> component : components)
+    {
+        component->Destroy();
+    }
     Core::GetCurrentScene()->RemoveGameObject(shared_from_this());
 }
 
@@ -38,12 +40,13 @@ void GameObject::SetName(std::string name)
     this->name = name;
 }
 
-template <typename T>
-std::weak_ptr<T> GameObject::GetComponent()
+void GameObject::UpdateComponents()
 {
-    for (Component component : components)
+    for (auto component : components)
     {
-        if (typeinfo(T) == typeid(component))
-            return component;
+        component->Update();
     }
 }
+
+
+GameObject::GameObject() {}

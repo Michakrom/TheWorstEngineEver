@@ -15,6 +15,7 @@ public:
     void ObserveGameObject();
     void RagisterGameObject(std::shared_ptr<GameObject> gameObject);
     void RemoveGameObject(std::shared_ptr<GameObject> gameObject);
+    void Destroy();
 
 private:
     const std::string MODEL_PATH = "models/chalet.obj";

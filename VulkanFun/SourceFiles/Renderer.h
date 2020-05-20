@@ -1,11 +1,13 @@
 #pragma once
-#include <vector>
-#include <vulkan/vulkan.h>
 #include "Vertex.h"
 #include "VulkanHandler.h"
-#include <memory>
 #include "Texture.h"
 #include "Component.h"
+#include "Transform.h"
+
+#include <memory>
+#include <vector>
+#include <vulkan/vulkan.h>
 
 class Renderer : public Component, public std::enable_shared_from_this<Renderer>
 {
@@ -13,7 +15,7 @@ private:
     std::shared_ptr<std::vector<Vertex>> vertices;
     std::shared_ptr<std::vector<uint32_t>> indices;
     std::shared_ptr<Texture> texture;
-    VulkanHandler* vulkanHandler;
+    VulkanHandler *vulkanHandler;
     VkImage textureImage;
     VkImageView textureImageView;
 
@@ -26,11 +28,12 @@ private:
     VkDeviceMemory textureImageMemory;
     std::vector<VkDeviceMemory> uniformBuffersMemory;
     VkDevice device;
+    std::weak_ptr<Transform> transform;
 
 public:
-    virtual void Start();
-    virtual void Update();
-    virtual void Destroy();
+    virtual void Start() override;
+    virtual void Update() override;
+    virtual void Destroy() override;
 
     Renderer();
     Renderer(const std::shared_ptr<std::vector<Vertex>> vertices,
@@ -38,8 +41,6 @@ public:
              const std::shared_ptr<Texture> texture);
     Renderer(const Renderer &rend);
     ~Renderer();
-
-    float shift;
 
     void Initialize();
 

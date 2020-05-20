@@ -2,8 +2,18 @@
 #include "Core.h"
 #include "TextMaker.h"
 #include "Texture.h"
-#include <stb_image.h>
+#include "TestComponent.h"
 #include "ModelLoader.h"
+
+#include <stb_image.h>
+
+void Scene::Destroy()
+{
+    while (gameObjects.size() > 0)
+    {
+        gameObjects.front()->Destroy();
+    }
+}
 
 void Scene::RagisterGameObject(
     std::shared_ptr<GameObject> gameObject)
@@ -32,8 +42,8 @@ void Scene::PrepareScene()
     rend.lock()->SetVertices(std::make_shared<std::vector<Vertex>>(vertices3));
     rend.lock()->SetIndices(std::make_shared<std::vector<uint32_t>>(indices3));
     rend.lock()->SetTexture(texture);
-    rend.lock()->shift = -1.6f;
     rend.lock()->Initialize();
+    gameObject.lock()->AddComponent<TestComponent>();
 
     // gameObjects.reserve(2);
     // gameObjects.emplace_back();
@@ -65,4 +75,8 @@ void Scene::PrepareScene()
 }
 void Scene::UpdateGameObjects()
 {
+    for (auto gameObject : gameObjects)
+    {
+        gameObject->UpdateComponents();
+    }
 }

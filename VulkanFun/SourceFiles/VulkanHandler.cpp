@@ -79,16 +79,12 @@ void VulkanHandler::RagisterRenderer(std::shared_ptr<Renderer> renderer)
     renderers.push_back(renderer);
 
     vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
-
     createCommandBuffers();
-    createSyncObjects();
 }
 
 void VulkanHandler::RemoveRenderer(std::shared_ptr<Renderer> renderer)
 {
     renderers.remove(renderer);
-    // createCommandBuffers();
-    // createSyncObjects();
 }
 
 void VulkanHandler::initVulkan(GLFWwindow* window)
@@ -112,8 +108,8 @@ void VulkanHandler::initVulkan(GLFWwindow* window)
 
     createDescriptorPool();
 
-    // createCommandBuffers();
-    // createSyncObjects();
+    createCommandBuffers();
+    createSyncObjects();
 }
 
 void VulkanHandler::PrintFPS()
@@ -761,9 +757,9 @@ void VulkanHandler::createTextureSampler()
     samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
     samplerInfo.magFilter = VK_FILTER_LINEAR;
     samplerInfo.minFilter = VK_FILTER_LINEAR;
-    samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE;
-    samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE;
-    samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE;
+    samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
     samplerInfo.anisotropyEnable = VK_TRUE;
     samplerInfo.maxAnisotropy = 16;
     samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;

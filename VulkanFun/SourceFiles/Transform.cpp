@@ -1,11 +1,17 @@
 #include "Transform.h"
 
-Transform::Transform(glm::vec3 position, glm::vec3 rotation) : 
-    position(position), rotation(rotation) {}
+void Transform::Start()
+{
+}
 
-void Transform::Start() {}
+void Transform::Update()
+{
 
-void Transform::Update() {}
+}
+void Transform::Destroy()
+{
+
+}
 
 glm::vec3 Transform::GetPosition() const
 {

@@ -11,7 +11,7 @@ void Core::Run()
     currentScene->PrepareScene();
     Update();
     //
-    currentScene.reset();
+    currentScene->Destroy();
     //
     vulkanHandler.cleanup();
 }
@@ -46,6 +46,7 @@ void Core::Update()
 {
     while (!glfwWindowShouldClose(window))
     {
+        currentScene->UpdateGameObjects();
         glfwPollEvents();
         vulkanHandler.drawFrame();
     }
