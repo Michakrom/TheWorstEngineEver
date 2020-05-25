@@ -27,7 +27,7 @@ void GameObject::Destroy()
     {
         component->Destroy();
     }
-    Core::GetCurrentScene()->RemoveGameObject(shared_from_this());
+    markedAsDestroyed = true;
 }
 
 std::string GameObject::GetName()
@@ -48,5 +48,9 @@ void GameObject::UpdateComponents()
     }
 }
 
+bool GameObject::IsMarkedAsDestroyed()
+{
+    return markedAsDestroyed;
+}
 
 GameObject::GameObject() {}

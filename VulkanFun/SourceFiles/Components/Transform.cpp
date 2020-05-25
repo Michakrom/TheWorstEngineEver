@@ -1,18 +1,5 @@
 #include "Transform.h"
 
-void Transform::Start()
-{
-}
-
-void Transform::Update()
-{
-
-}
-void Transform::Destroy()
-{
-
-}
-
 glm::vec3 Transform::GetPosition() const
 {
     return position;

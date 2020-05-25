@@ -17,14 +17,22 @@ public:
         GLFWwindow *window, int width, int height
     );
 
+    template <typename T>
+    static void SwitchScene()
+    {
+        queuedScene = std::make_unique<T>();
+    }
+
 private:
     static VulkanHandler vulkanHandler;
     static std::unique_ptr<Scene> currentScene;
+    static std::unique_ptr<Scene> queuedScene;
 
-    const int WIDTH = 800;
-    const int HEIGHT = 600;
+    const int SCREEN_WIDTH = 800;
+    const int SCREEN_HEIGHT = 600;
 
     GLFWwindow *window;
 
     void Update();
+    void LoadScene();
 };

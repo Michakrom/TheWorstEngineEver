@@ -19,7 +19,7 @@ void Renderer::Update()
     glm::vec3 rotation = transform.lock()->GetRotation();
     ubo.view = glm::lookAt(
         glm::vec3(pos.x, pos.y, 3.0f), glm::vec3(pos.x, pos.y, 0.0f),
-                           glm::vec3(0.0f, -1.0f, 1.0f));
+        glm::vec3(0.0f, 1.0f, 0.0f));
     ubo.proj = glm::perspective(
         glm::radians(80.0f),
         vulkanHandler->GetSwapChainExtent().width /
@@ -41,19 +41,13 @@ void Renderer::Update()
     vkMapMemory(device, uniformBuffersMemory[2], 0, sizeof(ubo), 0, &data);
     memcpy(data, &ubo, sizeof(ubo));
     vkUnmapMemory(device, uniformBuffersMemory[2]);
-
 }
 
 void Renderer::Destroy()
 {
     vulkanHandler->RemoveRenderer(shared_from_this());
 
-    for (size_t i = 0; i < vulkanHandler->GetSwapChainImages().size();
-         i++)
-    {
-        vkDestroyBuffer(device, uniformBuffers[i], nullptr);
-        vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
-    }
+    DestroyUniformBuffers();
 
     vkDestroyImageView(device, textureImageView, nullptr);
 
@@ -87,7 +81,7 @@ Renderer::Renderer(const Renderer &rend)
     std::cout << "trying to copy renderer, it shouldn't happen";
 }
 
-Renderer::~Renderer() { }
+Renderer::~Renderer() {}
 
 void Renderer::Initialize()
 {
@@ -96,7 +90,6 @@ void Renderer::Initialize()
     CreateVertexBuffer();
     CreateIndexBuffer();
     CreateUniformBuffer();
-    CreateDescriptorSets();
     vulkanHandler->RagisterRenderer(shared_from_this());
 }
 
@@ -205,7 +198,6 @@ void Renderer::CreateUniformBuffer()
     {
         vulkanHandler->createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
     }
-
 }
 
 void Renderer::CreateTextureImageView()
@@ -216,7 +208,7 @@ void Renderer::CreateTextureImageView()
 
 void Renderer::CreateTextureImage()
 {
-    stbi_uc *pixels = texture->buffer;
+    unsigned char *pixels = texture->buffer.get();
 
     VkDeviceSize imageSize;
     if (texture->format == VK_FORMAT_R8G8B8A8_SRGB)
@@ -250,15 +242,19 @@ void Renderer::CreateTextureImage()
 
 void Renderer::CreateDescriptorSets()
 {
-    std::vector<VkDescriptorSetLayout> layouts(vulkanHandler->GetSwapChainImages().size(), vulkanHandler->GetDescriptorSetLayout());
+    std::vector<VkDescriptorSetLayout> layouts(
+        vulkanHandler->GetSwapChainImages().size(),
+        vulkanHandler->GetDescriptorSetLayout());
     VkDescriptorSetAllocateInfo allocInfo = {};
     allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
     allocInfo.descriptorPool = vulkanHandler->GetDescriptorPool();
-    allocInfo.descriptorSetCount = static_cast<uint32_t>(vulkanHandler->GetSwapChainImages().size());
+    allocInfo.descriptorSetCount =
+        static_cast<uint32_t>(vulkanHandler->GetSwapChainImages().size());
     allocInfo.pSetLayouts = layouts.data();
 
     descriptorSets = std::make_unique<std::vector<VkDescriptorSet>>();
     descriptorSets->resize(vulkanHandler->GetSwapChainImages().size());
+
     if (vkAllocateDescriptorSets(device, &allocInfo, descriptorSets->data()) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to allocate descriptor sets!");
@@ -300,6 +296,17 @@ void Renderer::CreateDescriptorSets()
 
 void Renderer::SwapChainRecreated()
 {
+    DestroyUniformBuffers();
     CreateUniformBuffer();
     CreateDescriptorSets();
+}
+
+void Renderer::DestroyUniformBuffers()
+{
+    for (size_t i = 0; i < vulkanHandler->GetSwapChainImages().size();
+         i++)
+    {
+        vkDestroyBuffer(device, uniformBuffers[i], nullptr);
+        vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
+    }
 }

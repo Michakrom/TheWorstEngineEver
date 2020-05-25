@@ -39,7 +39,8 @@ public:
     void RagisterRenderer(std::shared_ptr<Renderer> renderer);
     void RemoveRenderer(std::shared_ptr<Renderer> renderer);
     void MarkWindowAsResized();
-    void WaitForDrawEnd();
+    void WaitIdle();
+    void ResetCommandBuffer();
     void drawFrame();
     void cleanup();
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
@@ -126,11 +127,11 @@ private:
 
     static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
     void cleanupSwapChain();
-    void recreateSwapChain();
     void createInstance(const char *applicationName, const char *engineName);
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
     void setupDebugMessenger();
     void createSurface();
+    void recreateSwapChain();
     void pickPhysicalDevice();
     void createLogicalDevice();
     void createSwapChain();

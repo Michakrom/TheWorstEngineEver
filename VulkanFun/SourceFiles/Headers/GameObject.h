@@ -17,13 +17,14 @@ public:
     void SetName(std::string name);
 
     void UpdateComponents();
+    bool IsMarkedAsDestroyed();
 
     template <typename T>
     std::weak_ptr<T> AddComponent()
     {
         auto component = std::make_shared<T>();
         components.push_back(component);
-        component->SetGameObject(shared_from_this());
+        component->SetGameObject(weak_from_this());
         component->Start();
         return component;
     }
@@ -58,6 +59,7 @@ private:
 
     std::string name;
     std::vector<std::shared_ptr<Component>> components;
+    bool markedAsDestroyed;
 
     GameObject();
 };

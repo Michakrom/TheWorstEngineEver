@@ -30,6 +30,8 @@ private:
     VkDevice device;
     std::weak_ptr<Transform> transform;
 
+    void DestroyUniformBuffers();
+
 public:
     virtual void Start() override;
     virtual void Update() override;

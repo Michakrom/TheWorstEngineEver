@@ -5,10 +5,6 @@
 class Transform : public Component
 {
 public:
-    virtual void Start() override;
-    virtual void Update() override;
-    virtual void Destroy() override;
-
     glm::vec3 GetPosition() const;
     void SetPosition(glm::vec3 position);
     glm::vec3 GetRotation();

@@ -1,15 +1,11 @@
 #pragma once
 #include <vulkan/vulkan.h>
-
-typedef unsigned char stbi_uc;
+#include <memory>
 
 struct Texture
 {
-    // TODO: Make it more secure
-    stbi_uc *buffer;
+    std::unique_ptr<unsigned char> buffer;
     int width;
     int height;
     VkFormat format;
-
-    ~Texture();
 };

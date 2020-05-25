@@ -15,99 +15,123 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SourceFiles\FileReader.cpp">
+    <ClCompile Include="SourceFiles\Components\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Main.cpp">
+    <ClCompile Include="SourceFiles\Components\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Renderer.cpp">
+    <ClCompile Include="SourceFiles\Components\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Texture.cpp">
+    <ClCompile Include="SourceFiles\Core\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Vertex.cpp">
+    <ClCompile Include="SourceFiles\Core\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\VulkanHandler.cpp">
+    <ClCompile Include="SourceFiles\Core\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\TextMaker.cpp">
+    <ClCompile Include="SourceFiles\Core\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\GameObject.cpp">
+    <ClCompile Include="SourceFiles\Rendering\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Scene.cpp">
+    <ClCompile Include="SourceFiles\Rendering\Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Core.cpp">
+    <ClCompile Include="SourceFiles\Rendering\VulkanHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\ModelLoader.cpp">
+    <ClCompile Include="SourceFiles\TestUserDefinedClasses\InitialScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Transform.cpp">
+    <ClCompile Include="SourceFiles\TestUserDefinedClasses\TestComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Component.cpp">
+    <ClCompile Include="SourceFiles\Tools\FileReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\TestComponent.cpp">
+    <ClCompile Include="SourceFiles\Tools\ModelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\Tools\TextMaker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\TestUserDefinedClasses\TestScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\TestUserDefinedClasses\TestComponent2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\Rendering\Character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SourceFiles\FileReader.h">
+    <ClInclude Include="SourceFiles\Headers\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\hash.h">
+    <ClInclude Include="SourceFiles\Headers\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\QueueFamilyIndices.h">
+    <ClInclude Include="SourceFiles\Headers\FileReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\Renderer.h">
+    <ClInclude Include="SourceFiles\Headers\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\SwapChainSupportDetails.h">
+    <ClInclude Include="SourceFiles\Headers\hash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\Texture.h">
+    <ClInclude Include="SourceFiles\Headers\InitialScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\UniformBufferObject.h">
+    <ClInclude Include="SourceFiles\Headers\ModelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\Vertex.h">
+    <ClInclude Include="SourceFiles\Headers\QueueFamilyIndices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\VulkanHandler.h">
+    <ClInclude Include="SourceFiles\Headers\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\TextMaker.h">
+    <ClInclude Include="SourceFiles\Headers\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\GameObject.h">
+    <ClInclude Include="SourceFiles\Headers\SwapChainSupportDetails.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\Scene.h">
+    <ClInclude Include="SourceFiles\Headers\TestComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\Core.h">
+    <ClInclude Include="SourceFiles\Headers\TextMaker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\ModelLoader.h">
+    <ClInclude Include="SourceFiles\Headers\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\Component.h">
+    <ClInclude Include="SourceFiles\Headers\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\Transform.h">
+    <ClInclude Include="SourceFiles\Headers\UniformBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\TestComponent.h">
+    <ClInclude Include="SourceFiles\Headers\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\Headers\VulkanHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\Headers\TestScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\Headers\TestComponent2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\Headers\Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

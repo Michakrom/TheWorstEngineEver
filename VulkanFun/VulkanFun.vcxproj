@@ -71,15 +71,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -154,39 +158,47 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SourceFiles\Component.cpp" />
-    <ClCompile Include="SourceFiles\Core.cpp" />
-    <ClCompile Include="SourceFiles\FileReader.cpp" />
-    <ClCompile Include="SourceFiles\GameObject.cpp" />
-    <ClCompile Include="SourceFiles\ModelLoader.cpp" />
-    <ClCompile Include="SourceFiles\Scene.cpp" />
-    <ClCompile Include="SourceFiles\TestComponent.cpp" />
-    <ClCompile Include="SourceFiles\TextMaker.cpp" />
-    <ClCompile Include="SourceFiles\Main.cpp" />
-    <ClCompile Include="SourceFiles\Renderer.cpp" />
-    <ClCompile Include="SourceFiles\Texture.cpp" />
-    <ClCompile Include="SourceFiles\Transform.cpp" />
-    <ClCompile Include="SourceFiles\Vertex.cpp" />
-    <ClCompile Include="SourceFiles\VulkanHandler.cpp" />
+    <ClCompile Include="SourceFiles\Components\Component.cpp" />
+    <ClCompile Include="SourceFiles\Components\Renderer.cpp" />
+    <ClCompile Include="SourceFiles\Components\Transform.cpp" />
+    <ClCompile Include="SourceFiles\Core\Core.cpp" />
+    <ClCompile Include="SourceFiles\Core\GameObject.cpp" />
+    <ClCompile Include="SourceFiles\Core\Main.cpp" />
+    <ClCompile Include="SourceFiles\Core\Scene.cpp" />
+    <ClCompile Include="SourceFiles\Rendering\Character.cpp" />
+    <ClCompile Include="SourceFiles\Rendering\Texture.cpp" />
+    <ClCompile Include="SourceFiles\Rendering\Vertex.cpp" />
+    <ClCompile Include="SourceFiles\Rendering\VulkanHandler.cpp" />
+    <ClCompile Include="SourceFiles\TestUserDefinedClasses\InitialScene.cpp" />
+    <ClCompile Include="SourceFiles\TestUserDefinedClasses\TestComponent.cpp" />
+    <ClCompile Include="SourceFiles\TestUserDefinedClasses\TestComponent2.cpp" />
+    <ClCompile Include="SourceFiles\TestUserDefinedClasses\TestScene.cpp" />
+    <ClCompile Include="SourceFiles\Tools\FileReader.cpp" />
+    <ClCompile Include="SourceFiles\Tools\ModelLoader.cpp" />
+    <ClCompile Include="SourceFiles\Tools\TextMaker.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SourceFiles\Component.h" />
-    <ClInclude Include="SourceFiles\Core.h" />
-    <ClInclude Include="SourceFiles\FileReader.h" />
-    <ClInclude Include="SourceFiles\GameObject.h" />
-    <ClInclude Include="SourceFiles\ModelLoader.h" />
-    <ClInclude Include="SourceFiles\Scene.h" />
-    <ClInclude Include="SourceFiles\TestComponent.h" />
-    <ClInclude Include="SourceFiles\TextMaker.h" />
-    <ClInclude Include="SourceFiles\hash.h" />
-    <ClInclude Include="SourceFiles\QueueFamilyIndices.h" />
-    <ClInclude Include="SourceFiles\Renderer.h" />
-    <ClInclude Include="SourceFiles\SwapChainSupportDetails.h" />
-    <ClInclude Include="SourceFiles\Texture.h" />
-    <ClInclude Include="SourceFiles\Transform.h" />
-    <ClInclude Include="SourceFiles\UniformBufferObject.h" />
-    <ClInclude Include="SourceFiles\Vertex.h" />
-    <ClInclude Include="SourceFiles\VulkanHandler.h" />
+    <ClInclude Include="SourceFiles\Headers\Character.h" />
+    <ClInclude Include="SourceFiles\Headers\Component.h" />
+    <ClInclude Include="SourceFiles\Headers\Core.h" />
+    <ClInclude Include="SourceFiles\Headers\FileReader.h" />
+    <ClInclude Include="SourceFiles\Headers\GameObject.h" />
+    <ClInclude Include="SourceFiles\Headers\hash.h" />
+    <ClInclude Include="SourceFiles\Headers\InitialScene.h" />
+    <ClInclude Include="SourceFiles\Headers\ModelLoader.h" />
+    <ClInclude Include="SourceFiles\Headers\QueueFamilyIndices.h" />
+    <ClInclude Include="SourceFiles\Headers\Renderer.h" />
+    <ClInclude Include="SourceFiles\Headers\Scene.h" />
+    <ClInclude Include="SourceFiles\Headers\SwapChainSupportDetails.h" />
+    <ClInclude Include="SourceFiles\Headers\TestComponent.h" />
+    <ClInclude Include="SourceFiles\Headers\TestComponent2.h" />
+    <ClInclude Include="SourceFiles\Headers\TestScene.h" />
+    <ClInclude Include="SourceFiles\Headers\TextMaker.h" />
+    <ClInclude Include="SourceFiles\Headers\Texture.h" />
+    <ClInclude Include="SourceFiles\Headers\Transform.h" />
+    <ClInclude Include="SourceFiles\Headers\UniformBufferObject.h" />
+    <ClInclude Include="SourceFiles\Headers\Vertex.h" />
+    <ClInclude Include="SourceFiles\Headers\VulkanHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="freetype.dll" />

@@ -69,7 +69,7 @@ void VulkanHandler::MarkWindowAsResized()
     framebufferResized = true;
 }
 
-void VulkanHandler::WaitForDrawEnd()
+void VulkanHandler::WaitIdle()
 {
     vkDeviceWaitIdle(device);
 }
@@ -77,14 +77,49 @@ void VulkanHandler::WaitForDrawEnd()
 void VulkanHandler::RagisterRenderer(std::shared_ptr<Renderer> renderer)
 {
     renderers.push_back(renderer);
+    vkDeviceWaitIdle(device);
 
-    vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
-    createCommandBuffers();
+    vkDestroyDescriptorPool(device, descriptorPool, nullptr);
+    createDescriptorPool();
+
+    for (std::shared_ptr<Renderer> rend : renderers)
+    {
+        rend->CreateDescriptorSets();
+    }
+
+    ResetCommandBuffer();
 }
 
 void VulkanHandler::RemoveRenderer(std::shared_ptr<Renderer> renderer)
 {
     renderers.remove(renderer);
+    vkDeviceWaitIdle(device);
+
+    vkDestroyDescriptorPool(device, descriptorPool, nullptr);
+    createDescriptorPool();
+
+    for (std::shared_ptr<Renderer> rend : renderers)
+    {
+        rend->CreateDescriptorSets();
+    }
+
+    ResetCommandBuffer();
+
+    // for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    // {
+    //     vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
+    //     vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
+    //     vkDestroyFence(device, inFlightFences[i], nullptr);
+    // }
+
+    // createSyncObjects();
+}
+
+void VulkanHandler::ResetCommandBuffer()
+{
+    vkFreeCommandBuffers(device, commandPool,
+        static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+    createCommandBuffers();
 }
 
 void VulkanHandler::initVulkan(GLFWwindow* window)
@@ -225,6 +260,10 @@ void VulkanHandler::recreateSwapChain()
     createFramebuffers();
     // createUniformBuffers();
     createDescriptorPool();
+    for (std::shared_ptr<Renderer> rend : renderers)
+    {
+        rend->SwapChainRecreated();
+    }
     // createDescriptorSets();
     createCommandBuffers();
 }
@@ -622,7 +661,14 @@ void VulkanHandler::createGraphicsPipeline()
 
     VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
     colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-    colorBlendAttachment.blendEnable = VK_FALSE;
+    colorBlendAttachment.blendEnable = VK_TRUE;
+    colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+    colorBlendAttachment.dstColorBlendFactor = 
+        VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+    colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+    colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+    colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+    colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 
     VkPipelineColorBlendStateCreateInfo colorBlending = {};
     colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
@@ -914,17 +960,21 @@ void VulkanHandler::createDescriptorPool()
 {
     std::array<VkDescriptorPoolSize, 2> poolSizes = {};
     poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    poolSizes[0].descriptorCount = static_cast<uint32_t>(swapChainImages.size() * 20);
+    poolSizes[0].descriptorCount = static_cast<uint32_t>(
+        swapChainImages.size() * renderers.size());
     poolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    poolSizes[1].descriptorCount = static_cast<uint32_t>(swapChainImages.size() * 20);
+    poolSizes[1].descriptorCount = static_cast<uint32_t>(
+        swapChainImages.size() * renderers.size());
 
     VkDescriptorPoolCreateInfo poolInfo = {};
     poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
     poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
     poolInfo.pPoolSizes = poolSizes.data();
-    poolInfo.maxSets = static_cast<uint32_t>(swapChainImages.size() * 20);
+    poolInfo.maxSets = static_cast<uint32_t>(swapChainImages.size()
+        * renderers.size());
 
-    if (vkCreateDescriptorPool(device, &poolInfo, nullptr, &descriptorPool) != VK_SUCCESS)
+    if (vkCreateDescriptorPool(device, &poolInfo, nullptr, &descriptorPool)
+        != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create descriptor pool!");
     }
@@ -1130,9 +1180,6 @@ void VulkanHandler::drawFrame()
         throw std::runtime_error("failed to acquire swap chain image!");
     }
 
-    // updateUniformBuffer(imageIndex);
-    // updateUniformBuffer2(imageIndex);
-
     if (imagesInFlight[imageIndex] != VK_NULL_HANDLE)
     {
         vkWaitForFences(device, 1, &imagesInFlight[imageIndex], VK_TRUE, UINT64_MAX);
@@ -1159,7 +1206,7 @@ void VulkanHandler::drawFrame()
 
     if (vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]) != VK_SUCCESS)
     {
-        throw std::runtime_error("failed to submit draw command buffer!");
+        throw std::runtime_error("failed to submit draw command buffer! ");
     }
 
     VkPresentInfoKHR presentInfo = {};
