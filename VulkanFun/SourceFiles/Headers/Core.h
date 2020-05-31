@@ -12,8 +12,8 @@ public:
     static VulkanHandler* GetVulkanHandler();
     static Scene* GetCurrentScene();
     void Run();
-    void initWindow();
-    static void framebufferResizeCallback(
+    void InitWindow();
+    static void FramebufferResizeCallback(
         GLFWwindow *window, int width, int height
     );
 
@@ -28,8 +28,8 @@ private:
     static std::unique_ptr<Scene> currentScene;
     static std::unique_ptr<Scene> queuedScene;
 
-    const int SCREEN_WIDTH = 800;
-    const int SCREEN_HEIGHT = 600;
+    const int SCREEN_WIDTH = 1280;
+    const int SCREEN_HEIGHT = 720;
 
     GLFWwindow *window;
 

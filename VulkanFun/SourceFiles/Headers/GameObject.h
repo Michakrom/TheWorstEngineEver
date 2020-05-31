@@ -19,6 +19,12 @@ public:
     void UpdateComponents();
     bool IsMarkedAsDestroyed();
 
+    void SetActive(bool state);
+    bool IsActive();
+    
+    void SetJustCreated(bool state);
+    bool IsJustCreated();
+
     template <typename T>
     std::weak_ptr<T> AddComponent()
     {
@@ -59,7 +65,9 @@ private:
 
     std::string name;
     std::vector<std::shared_ptr<Component>> components;
-    bool markedAsDestroyed;
+    bool isActive = true;
+    bool justCreated = true;
+    bool markedAsDestroyed = false;
 
     GameObject();
 };

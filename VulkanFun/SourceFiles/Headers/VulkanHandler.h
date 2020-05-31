@@ -16,6 +16,7 @@
 #include <optional>
 #include <set>
 #include <unordered_map>
+#include <map>
 
 #include "QueueFamilyIndices.h"
 #include "SwapChainSupportDetails.h"
@@ -28,37 +29,42 @@ class Renderer;
 class VulkanHandler
 {
 public:
-    void run();
-    void initVulkan(GLFWwindow *window);
+    void InitVulkan(GLFWwindow *window);
     VkDevice GetDevice();
     std::vector<VkImage> &GetSwapChainImages();
     VkExtent2D &GetSwapChainExtent();
-    VkDescriptorSetLayout &GetDescriptorSetLayout();
-    VkDescriptorPool &GetDescriptorPool();
-    VkSampler &GetTextureSampler();
+    VkDescriptorSetLayout GetDescriptorSetLayout();
+    VkDescriptorPool GetDescriptorPool();
+    VkSampler GetTextureSampler();
+    VkPipeline GetStandardGraphicsPipeline();
+    VkPipeline GetTextGraphicsPipeline();
+    uint32_t GetCurrentImageIndex();
     void RagisterRenderer(std::shared_ptr<Renderer> renderer);
     void RemoveRenderer(std::shared_ptr<Renderer> renderer);
     void MarkWindowAsResized();
     void WaitIdle();
-    void ResetCommandBuffer();
-    void drawFrame();
-    void cleanup();
+    void ResetRenderers();
+    void DrawFrame();
+    void Cleanup();
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-    void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
+    void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
                       VkMemoryPropertyFlags properties, VkBuffer &buffer,
                       VkDeviceMemory &bufferMemory);
     VkImageView createImageView(VkImage image, VkFormat format,
                                 VkImageAspectFlags aspectFlags);
-    void createImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage &image, VkDeviceMemory &imageMemory);
-    void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
-    void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
+    void createImage(uint32_t width, uint32_t height, VkFormat format, 
+        VkImageTiling tiling, VkImageUsageFlags usage,
+        VkMemoryPropertyFlags properties, VkImage &image,
+        VkDeviceMemory &imageMemory
+    );
+    void transitionImageLayout(VkImage image, VkFormat format,
+        VkImageLayout oldLayout, VkImageLayout newLayout);
+    void CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, 
+        uint32_t height);
 
 private:
     const int WIDTH = 800;
     const int HEIGHT = 600;
-
-    const std::string MODEL_PATH = "models/chalet.obj";
-    const std::string TEXTURE_PATH = "textures/chalet.jpg";
 
     const int MAX_FRAMES_IN_FLIGHT = 2;
 
@@ -96,7 +102,8 @@ private:
     VkRenderPass renderPass;
     VkDescriptorSetLayout descriptorSetLayout;
     VkPipelineLayout pipelineLayout;
-    VkPipeline graphicsPipeline;
+    VkPipeline standardGraphicsPipeline;
+    VkPipeline textGraphicsPipeline;
 
     VkCommandPool commandPool;
 
@@ -110,6 +117,7 @@ private:
     VkSampler textureSampler;
 
     std::list<std::shared_ptr<Renderer>> renderers;
+    std::multimap<size_t, std::shared_ptr<Renderer>> renderersToFree;
 
     VkDescriptorPool descriptorPool;
 
@@ -120,47 +128,68 @@ private:
     std::vector<VkFence> inFlightFences;
     std::vector<VkFence> imagesInFlight;
     size_t currentFrame = 0;
+    uint32_t imageIndex = 0;
 
-    bool framebufferResized = false;
+    bool frameBufferResized = false;
+    bool rendererVectorChanged = false;
 
-    void PrintFPS();
-
-    static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
-    void cleanupSwapChain();
-    void createInstance(const char *applicationName, const char *engineName);
-    void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
-    void setupDebugMessenger();
-    void createSurface();
-    void recreateSwapChain();
-    void pickPhysicalDevice();
-    void createLogicalDevice();
-    void createSwapChain();
-    void createImageViews();
-    void createRenderPass();
-    void createDescriptorSetLayout();
-    void createGraphicsPipeline();
-    void createFramebuffers();
-    void createCommandPool();
-    void createDepthResources();
-    VkFormat findSupportedFormat(const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
-    VkFormat findDepthFormat();
-    bool hasStencilComponent(VkFormat format);
-    void createTextureSampler();
-    void createDescriptorPool();
-    VkCommandBuffer beginSingleTimeCommands();
-    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
-    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
-    void createCommandBuffers();
-    void createSyncObjects();
-    VkShaderModule createShaderModule(const std::vector<char> &code);
-    VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
-    VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
-    VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
-    SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
-    bool isDeviceSuitable(VkPhysicalDevice device);
-    bool checkDeviceExtensionSupport(VkPhysicalDevice device);
-    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
-    std::vector<const char *> getRequiredExtensions();
-    bool checkValidationLayerSupport();
-    static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData);
+    static void FramebufferResizeCallback(GLFWwindow *window, int width,
+        int height
+    );
+    void CleanupSwapChain();
+    void CreateInstance(const char *applicationName, const char *engineName);
+    void PopulateDebugMessengerCreateInfo(
+        VkDebugUtilsMessengerCreateInfoEXT &createInfo
+    );
+    void SetupDebugMessenger();
+    void CreateSurface();
+    void RecreateSwapChain();
+    void PickPhysicalDevice();
+    void CreateLogicalDevice();
+    void CreateSwapChain();
+    void CreateImageViews();
+    void CreateRenderPass();
+    void CreateDescriptorSetLayout();
+    void CreateGraphicsPipelineLayout();
+    void CreateAllGraphicsPipelines();
+    void DestroyAllGraphicsPipelines();
+    void CreateGraphicsPipeline(bool createRegular, VkPipeline& targetPipeline);
+    void CreateFramebuffers();
+    void CreateCommandPool();
+    void CreateDepthResources();
+    VkFormat FindSupportedFormat(const std::vector<VkFormat> &candidates,   
+        VkImageTiling tiling, VkFormatFeatureFlags features
+    );
+    VkFormat FindDepthFormat();
+    bool HasStencilComponent(VkFormat format);
+    void CreateTextureSampler();
+    void CreateDescriptorPool();
+    VkCommandBuffer BeginSingleTimeCommands();
+    void EndSingleTimeCommands(VkCommandBuffer commandBuffer);
+    uint32_t FindMemoryType(uint32_t typeFilter,
+        VkMemoryPropertyFlags properties
+    );
+    void CreateCommandBuffers();
+    void CreateSyncObjects();
+    VkShaderModule CreateShaderModule(const std::vector<char> &code);
+    VkSurfaceFormatKHR ChooseSwapSurfaceFormat(
+        const std::vector<VkSurfaceFormatKHR> &availableFormats
+    );
+    VkPresentModeKHR ChooseSwapPresentMode(
+        const std::vector<VkPresentModeKHR> &availablePresentModes
+    );
+    VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
+    SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
+    bool IsDeviceSuitable(VkPhysicalDevice device);
+    bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
+    QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
+    std::vector<const char *> GetRequiredExtensions();
+    bool CheckValidationLayerSupport();
+    static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
+        VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, 
+        VkDebugUtilsMessageTypeFlagsEXT messageType,
+        const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
+        void *pUserData
+    );
+    void FreeRenderers();
 };

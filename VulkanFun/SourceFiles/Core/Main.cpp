@@ -2,7 +2,6 @@
 #include "Renderer.h"
 #include "Core.h"
 
-// std::shared_ptr<VulkanHandler> app;
 int main()
 {
     try

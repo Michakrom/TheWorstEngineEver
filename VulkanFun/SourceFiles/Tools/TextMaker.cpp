@@ -1,7 +1,7 @@
 #include "TextMaker.h"
 #include "iostream"
 #include "Vertex.h"
-#include "Renderer.h"
+#include "TextRenderer.h"
 
 #include <vector>
 #include <memory>
@@ -9,11 +9,6 @@
 FT_Library TextMaker::library;
 FT_Face TextMaker::face;
 
-std::vector<Vertex> TextMaker::quadVertices = {
-    {{-0.5f, -0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-    {{0.5f, -0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-    {{0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-    {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}};
 std::vector<uint32_t> TextMaker::quadIndices = {
     0, 1, 2, 2, 3, 0};
 
@@ -93,27 +88,35 @@ std::shared_ptr<Character> TextMaker::CreateCharacterTexture(char character,
 }
 
 std::vector<std::weak_ptr<GameObject>> TextMaker::CreateText(std::string text,
-    glm::vec3 position, int size)
+    glm::vec3 position, int size, glm::vec3 color)
 {
     std::vector<std::weak_ptr<GameObject>> result;
     result.reserve(text.size());
 
+    glm::vec3 startPos = position;
+
     Initialize();
 
-    float scale = size / 100000.0f;
-    float spaceWidth = scale * 80;
+    float scale = size / 70000.0f;
+    float spaceSize = ((size * 20) >> 6) * scale;
+    float newLineSize = ((size * 50) >> 6) * scale;
 
     for (auto i = 0; i < text.size(); i++)
     {
         if (text[i] == ' ')
         {
-            position.x += scale * 100;
+            position.x += spaceSize;
             continue;
         }
-    
+        if (text[i] == '\n')
+        {
+            position.y -= newLineSize;
+            position.x = startPos.x;
+            continue;
+        }
 
         auto gameObject = GameObject::Create();
-        auto rend = gameObject.lock()->AddComponent<Renderer>();
+        auto rend = gameObject.lock()->AddComponent<TextRenderer>();
 
         std::shared_ptr<Character> character = 
             CreateCharacterTexture(text[i], size, false);
@@ -126,16 +129,11 @@ std::vector<std::weak_ptr<GameObject>> TextMaker::CreateText(std::string text,
         float height = character->texture->height * scale;
 
         std::vector<Vertex> vertices = {
-            {{xpos, ypos, 0.0f},
-                {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-            {{xpos + width, ypos, 0.0f},
-                {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-            {{xpos + width, ypos + height, 0.0f},
-                {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-            {{xpos, ypos + height, 0.0f},
-                {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}}
+            {{xpos, ypos, position.z}, color, {0.0f, 1.0f}},
+            {{xpos + width, ypos, position.z}, color, {1.0f, 1.0f}},
+            {{xpos + width, ypos + height, position.z}, color, {1.0f, 0.0f}},
+            {{xpos, ypos + height, position.z}, color, {0.0f, 0.0f}}
         };
-
 
         rend.lock()->SetVertices(
             std::make_shared<std::vector<Vertex>>(vertices)
@@ -146,11 +144,6 @@ std::vector<std::weak_ptr<GameObject>> TextMaker::CreateText(std::string text,
         rend.lock()->SetTexture(std::move(character->texture));
         rend.lock()->Initialize();
 
-        // auto tr = gameObject.lock()->GetComponent<Transform>();
-        // tr.lock()->SetPosition(
-        //     glm::vec3(position.x + i, position.y, position.z)
-        // );
-        
         position.x += (character->advance >> 6) * scale;
             
         result.push_back(gameObject);

@@ -16,7 +16,8 @@ public:
     static std::shared_ptr<Character> CreateCharacterTexture(char character,
         int size);
     static std::vector<std::weak_ptr<GameObject>>
-        CreateText(std::string text, glm::vec3 position, int size);
+        CreateText(std::string text, glm::vec3 position, int size,
+        glm::vec3 color = glm::vec3(1, 1, 1));
 
 private:
     static void Initialize();
@@ -26,6 +27,5 @@ private:
     static FT_Library library;
     static FT_Face face;
 
-    static std::vector<Vertex> quadVertices;
     static std::vector<uint32_t> quadIndices;
 };

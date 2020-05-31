@@ -1,9 +1,5 @@
 #include "Scene.h"
 #include "Core.h"
-#include "TextMaker.h"
-#include "Texture.h"
-#include "TestComponent.h"
-#include "ModelLoader.h"
 
 #include <stb_image.h>
 
@@ -38,7 +34,15 @@ void Scene::UpdateGameObjects()
 {
     for (auto gameObject : gameObjects)
     {
-        gameObject->UpdateComponents();
+        if (!gameObject->IsJustCreated())
+        {
+            if (gameObject->IsActive() && !gameObject->IsMarkedAsDestroyed())
+                gameObject->UpdateComponents();
+        }
+        else
+        {
+            gameObject->SetJustCreated(false);
+        }
     }
     RemoveGameObjectsMarkedForDestruction();
 }

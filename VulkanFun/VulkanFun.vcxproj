@@ -71,19 +71,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers</IncludePath>
+    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\Game\SourceFiles\ExampleClasses;C:\Users\Admin\workspace\C++\TheWorstEngineEver\Game\SourceFiles\Headers;C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\Game\SourceFiles\ExampleClasses;C:\Users\Admin\workspace\C++\TheWorstEngineEver\Game\SourceFiles\Headers;C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers</IncludePath>
+    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\Game\SourceFiles\ExampleClasses;C:\Users\Admin\workspace\C++\TheWorstEngineEver\Game\SourceFiles\Headers;C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Admin\workspace\C++\TheWorstEngineEver\Game\SourceFiles\ExampleClasses;C:\Users\Admin\workspace\C++\TheWorstEngineEver\Game\SourceFiles\Headers;C:\Users\Admin\workspace\C++\TheWorstEngineEver\VulkanFun\SourceFiles\Headers;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Admin\workspace\C++\Libraries\tiny_obj_loader;C:\Users\Admin\workspace\C++\Libraries\stb;C:\VulkanSDK\1.2.131.2\Include;C:\Users\Admin\workspace\C++\Libraries\free_type\include;C:\Users\Admin\workspace\C++\Libraries\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;C:\Users\Admin\workspace\C++\Libraries\glm-0.9.9.7\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\workspace\C++\Libraries\free_type\include;C:\Users\Admin\workspace\C++\Libraries\tiny_obj_loader;C:\Users\Admin\workspace\C++\Libraries\stb;C:\VulkanSDK\1.2.131.2\Include;C:\Users\Admin\workspace\C++\Libraries\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;C:\Users\Admin\workspace\C++\Libraries\glm-0.9.9.7\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -107,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Admin\workspace\C++\Libraries\tiny_obj_loader;C:\Users\Admin\workspace\C++\Libraries\stb;C:\VulkanSDK\1.2.131.2\Include;C:\Users\Admin\workspace\C++\Libraries\free_type\include;C:\Users\Admin\workspace\C++\Libraries\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;C:\Users\Admin\workspace\C++\Libraries\glm-0.9.9.7\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\workspace\C++\Libraries\free_type\include;C:\Users\Admin\workspace\C++\Libraries\tiny_obj_loader;C:\Users\Admin\workspace\C++\Libraries\stb;C:\VulkanSDK\1.2.131.2\Include;C:\Users\Admin\workspace\C++\Libraries\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;C:\Users\Admin\workspace\C++\Libraries\glm-0.9.9.7\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -125,7 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Admin\workspace\C++\Libraries\tiny_obj_loader;C:\Users\Admin\workspace\C++\Libraries\stb;C:\VulkanSDK\1.2.131.2\Include;C:\Users\Admin\workspace\C++\Libraries\free_type\include;C:\Users\Admin\workspace\C++\Libraries\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;C:\Users\Admin\workspace\C++\Libraries\glm-0.9.9.7\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\workspace\C++\Libraries\free_type\include;C:\Users\Admin\workspace\C++\Libraries\tiny_obj_loader;C:\Users\Admin\workspace\C++\Libraries\stb;C:\VulkanSDK\1.2.131.2\Include;C:\Users\Admin\workspace\C++\Libraries\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;C:\Users\Admin\workspace\C++\Libraries\glm-0.9.9.7\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -145,7 +145,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Admin\workspace\C++\Libraries\tiny_obj_loader;C:\Users\Admin\workspace\C++\Libraries\stb;C:\VulkanSDK\1.2.131.2\Include;C:\Users\Admin\workspace\C++\Libraries\free_type\include;C:\Users\Admin\workspace\C++\Libraries\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;C:\Users\Admin\workspace\C++\Libraries\glm-0.9.9.7\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\workspace\C++\Libraries\free_type\include;C:\Users\Admin\workspace\C++\Libraries\tiny_obj_loader;C:\Users\Admin\workspace\C++\Libraries\stb;C:\VulkanSDK\1.2.131.2\Include;C:\Users\Admin\workspace\C++\Libraries\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;C:\Users\Admin\workspace\C++\Libraries\glm-0.9.9.7\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="SourceFiles\Components\Component.cpp" />
     <ClCompile Include="SourceFiles\Components\Renderer.cpp" />
+    <ClCompile Include="SourceFiles\Components\TextRenderer.cpp" />
     <ClCompile Include="SourceFiles\Components\Transform.cpp" />
     <ClCompile Include="SourceFiles\Core\Core.cpp" />
     <ClCompile Include="SourceFiles\Core\GameObject.cpp" />
@@ -169,10 +170,6 @@
     <ClCompile Include="SourceFiles\Rendering\Texture.cpp" />
     <ClCompile Include="SourceFiles\Rendering\Vertex.cpp" />
     <ClCompile Include="SourceFiles\Rendering\VulkanHandler.cpp" />
-    <ClCompile Include="SourceFiles\TestUserDefinedClasses\InitialScene.cpp" />
-    <ClCompile Include="SourceFiles\TestUserDefinedClasses\TestComponent.cpp" />
-    <ClCompile Include="SourceFiles\TestUserDefinedClasses\TestComponent2.cpp" />
-    <ClCompile Include="SourceFiles\TestUserDefinedClasses\TestScene.cpp" />
     <ClCompile Include="SourceFiles\Tools\FileReader.cpp" />
     <ClCompile Include="SourceFiles\Tools\ModelLoader.cpp" />
     <ClCompile Include="SourceFiles\Tools\TextMaker.cpp" />
@@ -184,21 +181,23 @@
     <ClInclude Include="SourceFiles\Headers\FileReader.h" />
     <ClInclude Include="SourceFiles\Headers\GameObject.h" />
     <ClInclude Include="SourceFiles\Headers\hash.h" />
-    <ClInclude Include="SourceFiles\Headers\InitialScene.h" />
     <ClInclude Include="SourceFiles\Headers\ModelLoader.h" />
     <ClInclude Include="SourceFiles\Headers\QueueFamilyIndices.h" />
     <ClInclude Include="SourceFiles\Headers\Renderer.h" />
     <ClInclude Include="SourceFiles\Headers\Scene.h" />
     <ClInclude Include="SourceFiles\Headers\SwapChainSupportDetails.h" />
-    <ClInclude Include="SourceFiles\Headers\TestComponent.h" />
-    <ClInclude Include="SourceFiles\Headers\TestComponent2.h" />
-    <ClInclude Include="SourceFiles\Headers\TestScene.h" />
     <ClInclude Include="SourceFiles\Headers\TextMaker.h" />
+    <ClInclude Include="SourceFiles\Headers\TextRenderer.h" />
     <ClInclude Include="SourceFiles\Headers\Texture.h" />
     <ClInclude Include="SourceFiles\Headers\Transform.h" />
     <ClInclude Include="SourceFiles\Headers\UniformBufferObject.h" />
     <ClInclude Include="SourceFiles\Headers\Vertex.h" />
     <ClInclude Include="SourceFiles\Headers\VulkanHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Game\Game.vcxproj">
+      <Project>{4b2c63c2-ee28-4c41-b91b-ac79201ae9d3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="freetype.dll" />

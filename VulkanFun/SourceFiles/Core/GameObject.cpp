@@ -53,4 +53,22 @@ bool GameObject::IsMarkedAsDestroyed()
     return markedAsDestroyed;
 }
 
+void GameObject::SetActive(bool state)
+{
+    isActive = state;
+}
+bool GameObject::IsActive()
+{
+    return isActive;
+}
+
+void GameObject::SetJustCreated(bool state)
+{
+    justCreated = state;
+}
+bool GameObject::IsJustCreated()
+{
+    return justCreated;
+}
+
 GameObject::GameObject() {}

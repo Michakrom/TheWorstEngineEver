@@ -14,4 +14,4 @@ struct hash<Vertex>
             (hash<glm::vec2>()(vertex.texCoord) << 1);
     }
 };
-} // namespace std
+}
