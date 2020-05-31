@@ -26,6 +26,4 @@ private:
         int size, bool initialize);
     static FT_Library library;
     static FT_Face face;
-
-    static std::vector<uint32_t> quadIndices;
 };

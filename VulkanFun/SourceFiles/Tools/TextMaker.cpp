@@ -9,8 +9,6 @@
 FT_Library TextMaker::library;
 FT_Face TextMaker::face;
 
-std::vector<uint32_t> TextMaker::quadIndices = {
-    0, 1, 2, 2, 3, 0};
 
 void TextMaker::Initialize()
 {
@@ -134,6 +132,9 @@ std::vector<std::weak_ptr<GameObject>> TextMaker::CreateText(std::string text,
             {{xpos + width, ypos + height, position.z}, color, {1.0f, 0.0f}},
             {{xpos, ypos + height, position.z}, color, {0.0f, 0.0f}}
         };
+
+        std::vector<uint32_t> quadIndices = {
+            0, 1, 2, 2, 3, 0};
 
         rend.lock()->SetVertices(
             std::make_shared<std::vector<Vertex>>(vertices)
